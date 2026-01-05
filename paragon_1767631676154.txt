@@ -1,0 +1,12 @@
+--- SKLEP SPOŻYWCZY ---
+--- PARAGON FISKALNY ---
+
+Mleko           x2  7,00 PLN
+Chleb           x1  4,20 PLN
+
+------------------------
+SUMA:          11,20 PLN
+RABAT:        -0,00 PLN
+DO ZAPŁATY:    11,20 PLN
+------------------------
+Dziękujemy za zakupy!

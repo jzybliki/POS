@@ -1,16 +1,10 @@
-package com.example.pos;
+package com.example.pos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
 public class Product {
-    @Id
-    private String barcode; // Kod kreskowy jako ID
+    // Chronione atrybuty (private)
+    private String barcode;
     private String name;
     private double price;
-
-    public Product() {}
 
     public Product(String barcode, String name, double price) {
         this.barcode = barcode;
@@ -18,8 +12,10 @@ public class Product {
         this.price = price;
     }
 
-    // Gettery
     public String getBarcode() { return barcode; }
     public String getName() { return name; }
     public double getPrice() { return price; }
+
+    @Override
+    public String toString() { return name; }
 }

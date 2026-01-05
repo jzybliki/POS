@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.pos.controller.PosController"
+      spacing="15" alignment="CENTER" style="-fx-padding: 20; -fx-background-color: #f4f4f4;">
+
+    <Label text="System POS" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="barcodeField" promptText="Kod (np. 111, 222)..." prefWidth="200"/>
+        <Button text="SKANUJ PRODUKT" onAction="#handleScan"
+                style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <TableView fx:id="cartTable" prefHeight="250" prefWidth="500">
+        <columns>
+            <TableColumn fx:id="colName" text="Produkt" prefWidth="200"/>
+            <TableColumn fx:id="colQty" text="Ilość" prefWidth="80"/>
+            <TableColumn fx:id="colPrice" text="Cena jedn." prefWidth="100"/>
+            <TableColumn fx:id="colTotal" text="Suma" prefWidth="100"/>
+        </columns>
+    </TableView>
+
+    <Label fx:id="totalLabel" text="SUMA: 0.00 PLN"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <Button text="ZAPŁAĆ I DRUKUJ PARAGON" onAction="#handleCheckout"
+            style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 20;"/>
+
+    <TextArea fx:id="receiptArea" prefHeight="200" prefWidth="400" editable="false"
+              style="-fx-font-family: 'Courier New';"/>
+
+</VBox>

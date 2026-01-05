@@ -1,0 +1,15 @@
+--- SKLEP SPOŻYWCZY ---
+--- PARAGON FISKALNY ---
+
+Mleko           x2  7,00 PLN
+Chleb           x1  4,20 PLN
+Masło           x1  7,99 PLN
+Wódka           x1  39,99 PLN
+Chipsy          x1  6,50 PLN
+
+------------------------
+SUMA:          65,68 PLN
+RABAT:        -6,57 PLN
+DO ZAPŁATY:    59,11 PLN
+------------------------
+Dziękujemy za zakupy!
