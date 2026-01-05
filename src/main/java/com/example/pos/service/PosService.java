@@ -13,29 +13,28 @@ import java.util.Optional;
 public class PosService {
     private final ProductRepository repository;
     private final DiscountStrategy discountStrategy;
-
-    // Stan koszyka (ArrayList)
     private final List<ReceiptItem> cart = new ArrayList<>();
 
-    // Konstruktor przyjmuje zależności (Dependency Injection)
     public PosService(ProductRepository repository, DiscountStrategy discountStrategy) {
         this.repository = repository;
         this.discountStrategy = discountStrategy;
     }
 
+    // Metoda pomocnicza do wyświetlania listy produktów w GUI
+    public List<Product> getAllProducts() {
+        return repository.findAll();
+    }
+
     public ReceiptItem scanProduct(String barcode) {
         Optional<Product> productOpt = repository.findByBarcode(barcode);
-
         if (productOpt.isPresent()) {
             Product p = productOpt.get();
-            // Sprawdź czy produkt już jest w koszyku
             for (ReceiptItem item : cart) {
                 if (item.getProduct().getBarcode().equals(p.getBarcode())) {
                     item.incrementQuantity();
                     return item;
                 }
             }
-            // Jeśli nie, dodaj nowy
             ReceiptItem newItem = new ReceiptItem(p, 1);
             cart.add(newItem);
             return newItem;
@@ -43,11 +42,19 @@ public class PosService {
         return null;
     }
 
-    public List<ReceiptItem> getCart() {
-        return cart;
+    // NOWA LOGIKA: Zwrot towaru
+    public String returnProduct(String barcode) {
+        Optional<Product> productOpt = repository.findByBarcode(barcode);
+        if (productOpt.isPresent()) {
+            return "ZWRÓCONO: " + productOpt.get().getName() + "\nKwota do oddania: " + productOpt.get().getPrice() + " PLN";
+        }
+        return "Błąd: Nie znaleziono produktu o kodzie " + barcode;
     }
 
-    public String checkout() {
+    public List<ReceiptItem> getCart() { return cart; }
+
+    // ZMIANA: Dodano argument paymentMethod
+    public String checkout(String paymentMethod) {
         if (cart.isEmpty()) return "Koszyk jest pusty!";
 
         double total = cart.stream().mapToDouble(ReceiptItem::getTotal).sum();
@@ -68,15 +75,15 @@ public class PosService {
         sb.append(String.format("RABAT:        -%.2f PLN\n", discount));
         sb.append(String.format("DO ZAPŁATY:    %.2f PLN\n", toPay));
         sb.append("------------------------\n");
+        sb.append("PŁATNOŚĆ: " + paymentMethod + "\n");
         sb.append("Dziękujemy za zakupy!");
 
         String receiptContent = sb.toString();
 
-        // Uruchomienie wątku drukującego (Thread)
         Thread printerThread = new Thread(new ReceiptPrinter(receiptContent));
         printerThread.start();
 
-        cart.clear(); // Wyczyść koszyk
+        cart.clear();
         return receiptContent;
     }
 }
